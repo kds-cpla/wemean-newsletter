@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>뉴스레터 구독 | 노무법인 위민WeMean</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+      background-color: #f5f7fa;
+      color: #1a2340;
+      line-height: 1.6;
+    }
+
+    /* ── Header ── */
+    header {
+      background: #fff;
+      border-bottom: 1px solid #e8ecf2;
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 72px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .logo-img-header {
+      height: 52px;
+      display: block;
+      /* 흰색 로고를 어두운 색으로 반전하여 흰 배경 헤더에 표시 */
+      filter: brightness(0);
+    }
+
+    .hero-logo {
+      height: 72px;
+      margin-bottom: 28px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      /* 흰색 로고 그대로 사용 — #00a3d2 배경 위에 표시 */
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(150deg, #00a3d2 0%, #0096c4 60%, #0088b4 100%);
+      padding: 80px 24px 96px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 320px;
+      height: 320px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 50%;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px;
+      left: -80px;
+      width: 400px;
+      height: 400px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 50%;
+    }
+
+    .hero-inner {
+      max-width: 920px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 7px 18px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+      letter-spacing: 0.3px;
+    }
+
+    .hero-heading {
+      font-weight: 900;
+      margin-bottom: 32px;
+      line-height: 1.2;
+    }
+
+    .hero-heading .line1 {
+      display: block;
+      font-size: clamp(20px, 3.4vw, 38px);
+      color: #fff;
+      white-space: nowrap;
+      margin-bottom: 22px;
+      letter-spacing: -0.5px;
+    }
+
+    .hero-heading .highlight {
+      display: inline-block;
+      font-size: clamp(28px, 5.2vw, 56px);
+      background: #fff;
+      color: #00a3d2;
+      padding: 10px 28px;
+      border-radius: 0;
+      letter-spacing: -0.5px;
+    }
+
+    .hero-sub {
+      color: rgba(255,255,255,0.82);
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.7;
+      margin-bottom: 40px;
+      word-break: keep-all;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: #fff;
+      color: #00a3d2;
+      border: none;
+      padding: 15px 32px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      font-family: inherit;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.28);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #fff;
+      border: 2px solid rgba(255,255,255,0.5);
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.15s, border-color 0.15s;
+      font-family: inherit;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.8);
+    }
+
+    /* ── Form Section ── */
+    .form-section {
+      max-width: 680px;
+      margin: -32px auto 60px;
+      padding: 0 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .form-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 8px 48px rgba(26,35,64,0.12);
+      padding: 48px 48px 40px;
+    }
+
+    @media (max-width: 600px) {
+      .form-card {
+        padding: 32px 24px 28px;
+      }
+    }
+
+    .form-section-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #1a2340;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #4a5568;
+      margin-bottom: 7px;
+      letter-spacing: 0.2px;
+    }
+
+    .form-group label .required {
+      color: #e53e3e;
+      margin-left: 2px;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      color: #1a2340;
+      background: #fafbfc;
+      transition: border-color 0.15s, background 0.15s;
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: #00a3d2;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(0,163,210,0.10);
+    }
+
+    .form-group input::placeholder {
+      color: #a0aec0;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    @media (max-width: 500px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #edf2f7;
+      margin: 28px 0;
+    }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #a0aec0;
+      margin-bottom: 16px;
+    }
+
+    /* Privacy */
+    .privacy-notice {
+      font-size: 12px;
+      color: #718096;
+      margin-bottom: 20px;
+      padding: 12px 14px;
+      background: #f7fafc;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .privacy-box {
+      background: #f7fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 18px;
+      margin-bottom: 20px;
+    }
+
+    .privacy-toggle {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .privacy-toggle-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #2d3748;
+    }
+
+    .privacy-toggle-label .required-mark {
+      color: #e53e3e;
+      font-size: 11px;
+      background: #fff5f5;
+      border: 1px solid #fed7d7;
+      border-radius: 4px;
+      padding: 1px 5px;
+      margin-left: 6px;
+      font-weight: 700;
+    }
+
+    .privacy-arrow {
+      color: #a0aec0;
+      font-size: 12px;
+      transition: transform 0.2s;
+    }
+
+    .privacy-arrow.open {
+      transform: rotate(180deg);
+    }
+
+    .privacy-detail {
+      display: none;
+      margin-top: 14px;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 14px;
+    }
+
+    .privacy-detail.open {
+      display: block;
+    }
+
+    .privacy-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    .privacy-table th,
+    .privacy-table td {
+      padding: 8px 10px;
+      border: 1px solid #e2e8f0;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .privacy-table th {
+      background: #edf2f7;
+      font-weight: 700;
+      color: #4a5568;
+      white-space: nowrap;
+      width: 28%;
+    }
+
+    .privacy-table td {
+      color: #4a5568;
+      line-height: 1.5;
+    }
+
+    .privacy-agree {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #4a5568;
+      margin-top: 14px;
+      cursor: pointer;
+    }
+
+    .privacy-agree input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: #1a2340;
+      cursor: pointer;
+    }
+
+    /* Submit button */
+    .btn-submit {
+      width: 100%;
+      padding: 17px;
+      background: #00a3d2;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 24px;
+      font-family: inherit;
+      letter-spacing: 0.3px;
+      transition: background 0.15s, transform 0.1s;
+    }
+
+    .btn-submit:hover {
+      background: #0092be;
+      transform: translateY(-1px);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 32px 24px;
+      color: #a0aec0;
+      font-size: 13px;
+    }
+
+    footer a {
+      color: #718096;
+      text-decoration: none;
+    }
+
+    /* Success message */
+    .success-msg {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .success-msg .icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .success-msg h3 {
+      font-size: 20px;
+      font-weight: 800;
+      color: #1a2340;
+      margin-bottom: 10px;
+    }
+
+    .success-msg p {
+      font-size: 14px;
+      color: #718096;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-inner">
+      <a href="https://www.we-mean.com" class="logo">
+        <!-- logo.png 파일을 이 HTML과 같은 폴더에 저장해 주세요 -->
+        <img src="logo.png" alt="노무법인 위민 WeMean" class="logo-img-header" />
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-inner">
+      <img src="logo.png" alt="노무법인 위민 WeMean" class="hero-logo" />
+      <div class="hero-badge">노무법인 위민 뉴스레터 서비스</div>
+      <h1 class="hero-heading">
+        <span class="line1">매주 노무 이슈, 뉴스, 판례, 행정해석까지</span>
+        <span class="highlight">싹 다 정리해서 보내드릴게요.</span>
+      </h1>
+      <p class="hero-sub">
+        노무법인 위민의 노무사들이 인사담당자님들께 도움이 될만한 정보를 엄선하고<br>
+        직접 정리하여 매주 화요일에 발송해드립니다.
+      </p>
+      <div class="hero-buttons">
+        <a href="#subscribe-form" class="btn-primary">지금 뉴스레터 구독 신청하기</a>
+        <a href="https://www.we-mean.com" target="_blank" class="btn-secondary">위민 홈페이지 구경하기</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Form Section -->
+  <section class="form-section" id="subscribe-form">
+    <div class="form-card">
+
+      <div id="form-content">
+        <h2 class="form-section-title">뉴스레터 구독 신청</h2>
+
+        <form id="newsletter-form" onsubmit="handleSubmit(event)">
+
+          <!-- 회사 정보 -->
+          <div class="section-label">회사 정보</div>
+
+          <div class="form-group">
+            <label>회사명 <span class="required">*</span></label>
+            <input type="text" name="company" placeholder="회사명을 입력해 주세요" required />
+          </div>
+
+          <div class="form-group">
+            <label>상시근로자수 <span class="required">*</span></label>
+            <select name="employees" required>
+              <option value="" disabled selected>상시근로자수를 선택해 주세요</option>
+              <option value="1-4">1~4명</option>
+              <option value="5-9">5~9명</option>
+              <option value="10-29">10~29명</option>
+              <option value="30-49">30~49명</option>
+              <option value="50-99">50~99명</option>
+              <option value="100-299">100~299명</option>
+              <option value="300+">300명 이상</option>
+            </select>
+          </div>
+
+          <hr class="divider" />
+
+          <!-- 담당자 정보 -->
+          <div class="section-label">담당자 정보</div>
+
+          <div class="form-group">
+            <label>담당자 이름 <span class="required">*</span></label>
+            <input type="text" name="name" placeholder="이름을 입력해 주세요" required />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>연락처 <span class="required">*</span></label>
+              <input type="tel" name="phone" placeholder="010-0000-0000" required />
+            </div>
+            <div class="form-group">
+              <label>이메일 <span class="required">*</span></label>
+              <input type="email" name="email" placeholder="example@company.com" required />
+            </div>
+          </div>
+
+          <hr class="divider" />
+
+          <!-- 개인정보 동의 -->
+          <p class="privacy-notice">입력하신 정보는 뉴스레터 발송 목적으로만 활용됩니다.</p>
+
+          <div class="privacy-box">
+            <div class="privacy-toggle" onclick="togglePrivacy()">
+              <span class="privacy-toggle-label">
+                개인정보 수집 및 이용 동의
+                <span class="required-mark">필수</span>
+              </span>
+              <span class="privacy-arrow" id="privacy-arrow">▼</span>
+            </div>
+            <div class="privacy-detail" id="privacy-detail">
+              <table class="privacy-table">
+                <tr>
+                  <th>수집·이용 목적</th>
+                  <td>뉴스레터 발송</td>
+                </tr>
+                <tr>
+                  <th>수집 항목</th>
+                  <td>회사명, 상시근로자수, 담당자 이름, 연락처, 이메일</td>
+                </tr>
+                <tr>
+                  <th>보유·이용 기간</th>
+                  <td>뉴스레터 발송 기간 동안 보유, 뉴스레터 구독 해지 후 파기</td>
+                </tr>
+              </table>
+              <p style="font-size:11px;color:#a0aec0;margin-top:10px;line-height:1.5;">
+                귀하는 개인정보 수집 및 이용에 동의를 거부하실 수 있으며, 거부 시 서비스 이용이 제한될 수 있습니다.
+              </p>
+            </div>
+            <label class="privacy-agree">
+              <input type="checkbox" id="privacy-check" required />
+              위 개인정보 수집 및 이용에 동의합니다.
+            </label>
+          </div>
+
+          <button type="submit" class="btn-submit">노무법인 위민 뉴스레터 구독하기</button>
+
+        </form>
+      </div>
+
+      <!-- Success Message -->
+      <div class="success-msg" id="success-msg">
+        <div class="icon">🎉</div>
+        <h3>구독 신청이 완료되었습니다!</h3>
+        <p>
+          매주 화요일, 노무법인 위민의 노무사들이<br>
+          엄선한 노무 정보를 이메일로 보내드립니다.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2026 노무법인 위민 WeMean. All rights reserved.</p>
+    <p style="margin-top: 6px;"><a href="https://www.we-mean.com" target="_blank">www.we-mean.com</a></p>
+  </footer>
+
+  <script>
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Toggle privacy detail
+    function togglePrivacy() {
+      const detail = document.getElementById('privacy-detail');
+      const arrow = document.getElementById('privacy-arrow');
+      detail.classList.toggle('open');
+      arrow.classList.toggle('open');
+    }
+
+    // Form submit
+    function handleSubmit(e) {
+      e.preventDefault();
+
+      const form = document.getElementById('newsletter-form');
+      const data = new FormData(form);
+      const payload = Object.fromEntries(data.entries());
+
+      // TODO: Notion API 연동 예정
+      console.log('구독 신청 데이터:', payload);
+
+      // Show success
+      document.getElementById('form-content').style.display = 'none';
+      document.getElementById('success-msg').style.display = 'block';
+    }
+
+    // Phone number auto-formatting
+    document.querySelector('input[name="phone"]').addEventListener('input', function(e) {
+      let val = e.target.value.replace(/\D/g, '');
+      if (val.length <= 3) {
+        e.target.value = val;
+      } else if (val.length <= 7) {
+        e.target.value = val.slice(0,3) + '-' + val.slice(3);
+      } else {
+        e.target.value = val.slice(0,3) + '-' + val.slice(3,7) + '-' + val.slice(7,11);
+      }
+    });
+  </script>
+
+</body>
+</html>
